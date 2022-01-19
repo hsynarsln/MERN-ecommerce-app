@@ -1,39 +1,39 @@
+import catchAsyncErrors from '../middleware/catchAsyncErrors.js';
 import ProductModel from '../models/productModel.js';
+import ApiFeatures from '../utils/apifeatures.js';
+import ErrorHandler from '../utils/errorhandler.js';
 
 //! CREATE PRODUCT
-export const createProduct = async (req, res, next) => {
-  try {
-    const product = await ProductModel.create(req.body);
+export const createProduct = catchAsyncErrors(async (req, res, next) => {
+  req.body.user = req.user.id;
 
-    res.status(201).json({
-      success: true,
-      product
-    });
-  } catch (error) {
-    res.status(409).json({ message: error.message });
-  }
-};
+  const product = await ProductModel.create(req.body);
+
+  res.status(201).json({
+    success: true,
+    product
+  });
+});
 
 //! GET PRODUCTS
-export const getAllProducts = async (req, res) => {
-  try {
-    const products = await ProductModel.find();
+export const getAllProducts = catchAsyncErrors(async (req, res) => {
+  //! Search, Filter & Pagination to backend
+  const resultPerPage = 5;
+  const productCount = await ProductModel.countDocuments();
 
-    res.status(200).json({ success: true, products });
-  } catch (error) {
-    res.status(404).json({ message: error.message });
-  }
-};
+  const apiFeature = new ApiFeatures(ProductModel.find(), req.query).search().filter().pagination(resultPerPage);
+  // const products = await ProductModel.find();
+  const products = await apiFeature.query;
+
+  res.status(200).json({ success: true, products });
+});
 
 //! UPDATE PRODUCT
-export const updateProduct = async (req, res, next) => {
+export const updateProduct = catchAsyncErrors(async (req, res, next) => {
   let product = ProductModel.findById(req.params.id);
 
   if (!product) {
-    return res.status(500).json({
-      success: false,
-      message: 'Product not found'
-    });
+    return next(new ErrorHandler('Porduct not found', 404));
   }
 
   product = await ProductModel.findByIdAndUpdate(req.params.id, req.body, {
@@ -46,37 +46,32 @@ export const updateProduct = async (req, res, next) => {
     success: true,
     product
   });
-};
+});
 
 //! DELETE PRODUCT
-export const deleteProduct = async (req, res, next) => {
+export const deleteProduct = catchAsyncErrors(async (req, res, next) => {
   const product = await ProductModel.findById(req.params.id);
 
   if (!product) {
-    return res.status(500).json({
-      success: false,
-      message: 'Product not found'
-    });
+    return next(new ErrorHandler('Porduct not found', 404));
   }
 
   await product.remove();
 
   res.json({ success: true, message: 'Post deleted successfully' });
-};
+});
 
 //! GET PRODUCT DETAILS
-export const getProductDetails = async (req, res, next) => {
+export const getProductDetails = catchAsyncErrors(async (req, res, next) => {
   const product = await ProductModel.findById(req.params.id);
 
   if (!product) {
-    return res.status(500).json({
-      success: false,
-      message: 'Product not found'
-    });
+    return next(new ErrorHandler('Porduct not found', 404));
   }
 
   res.status(200).json({
     success: true,
-    product
+    product,
+    productCount
   });
-};
+});
