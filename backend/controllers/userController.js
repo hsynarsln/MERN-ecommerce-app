@@ -80,14 +80,19 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
 
     return resetTokenie;
   };
+  // console.log(resetToken());
 
   await user.save({ validateBeforeSave: false });
 
-  const resetPasswordUrl = `${req.protocol}://${req.get('host')}/api/v1/password/reset/${resetToken}`;
+  // console.log(req.get('host'));
+  const resetPasswordUrl = `${req.protocol}://${req.get('host')}/api/v1/password/reset/${resetToken()}`;
+  // console.log(resetPasswordUrl);
 
-  const message = `Your password reset token is :- \n\n ${resetPasswordUrl} \n\nIf you have not requested this email then, please ignore it`;
+  const message = `Your password reset token is :- \n\n ${resetPasswordUrl} \n\nIf you have not requested this email then, please ignore it.`;
+  // console.log(message);
 
   try {
+    // console.log(user.email);
     await sendEmail({
       email: user.email,
       subject: `Ecommerce Password Recovery`,
@@ -119,7 +124,7 @@ export const resetPassword = catchAsyncErrors(async (req, res, next) => {
   });
 
   if (!user) {
-    return next(new ErrorHandler('Reset Password Topken is invalid or has been expired', 400));
+    return next(new ErrorHandler('Reset Password Token is invalid or has been expired', 400));
   }
 
   if (req.body.password !== req.body.confirmPassword) {

@@ -15,4 +15,4 @@
 /node_modules
 
 # Config
-/backend/config
+/backend/config/config.env

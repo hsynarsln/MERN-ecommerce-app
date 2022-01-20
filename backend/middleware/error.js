@@ -17,13 +17,13 @@ export default (err, req, res, next) => {
   }
 
   //! Wrong JWT error
-  if ((err.name = 'JsonWebTokenError')) {
+  if (err.name === 'JsonWebTokenError') {
     const message = `Json web Token is invalid, try again`;
     err = new ErrorHandler(message, 400);
   }
 
   //! JWT EXPIRE error
-  if ((err.name = 'TokenExpiredError')) {
+  if (err.name === 'TokenExpiredError') {
     const message = `Json web Token is expired, try again`;
     err = new ErrorHandler(message, 400);
   }
