@@ -1,5 +1,4 @@
 import bcrypt from 'bcryptjs';
-import crypto from 'crypto';
 import mongoose from 'mongoose';
 //? mükerrer email kaydını önlemek için --> npm i --save mongoose-unique-validator --> then;
 import validator from 'validator';
@@ -49,16 +48,16 @@ userSchema.pre('save', async function (next) {
 // };
 
 //! generating password reset token
-userSchema.methods.getResetPasswordToken = () => {
-  //! generating token
-  const resetToken = crypto.randomBytes(20).toString('hex');
+// userSchema.methods.getResetPasswordToken = () => {
+//   //! generating token
+//   const resetToken = crypto.randomBytes(20).toString('hex');
 
-  //! hashing and adding resetPasswordToken to userSchema
-  this.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+//   //! hashing and adding resetPasswordToken to userSchema
+//   this.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
 
-  this.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
+//   this.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
 
-  return resetToken;
-};
+//   return resetToken;
+// };
 
 export default model('User', userSchema);
