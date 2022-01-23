@@ -1,7 +1,7 @@
 import React from 'react';
 import { BsSearch } from 'react-icons/bs';
 import { MdOutlineShoppingCart } from 'react-icons/md';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../../../images/logo.png';
 import usersvg from '../../../images/user.svg';
@@ -26,9 +26,11 @@ const Header = () => {
       ) : (
         <>
           <NavMenu>
-            <a>
-              <span>HOME</span>
-            </a>
+            <NavLink to='/' style={{ textDecoration: 'none' }}>
+              <a>
+                <span>HOME</span>
+              </a>
+            </NavLink>
             <a>
               <span>PRODUCT</span>
             </a>
