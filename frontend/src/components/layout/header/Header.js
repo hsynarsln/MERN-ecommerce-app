@@ -3,7 +3,7 @@ import { BsSearch } from 'react-icons/bs';
 import { MdOutlineShoppingCart } from 'react-icons/md';
 import { NavLink, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import logo from '../../../images/logo.png';
+import logo from '../../../images/logos.png';
 import usersvg from '../../../images/user.svg';
 
 const Header = () => {
@@ -17,7 +17,7 @@ const Header = () => {
   return (
     <Nav>
       <Logo>
-        <img src={logo} alt='' />
+        <img src={logo} alt='' style={{ width: '3rem' }} />
       </Logo>
 
       {/* //! user mevcut değilse --> login page'e git. mevcut ise navMenu görünsün */}
