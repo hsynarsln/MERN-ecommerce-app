@@ -31,9 +31,11 @@ const Header = () => {
                 <span>HOME</span>
               </a>
             </NavLink>
-            <a>
-              <span>PRODUCT</span>
-            </a>
+            <NavLink to='/products' style={{ textDecoration: 'none' }}>
+              <a>
+                <span>PRODUCTS</span>
+              </a>
+            </NavLink>
             <a>
               <span>CONTACT</span>
             </a>
@@ -42,9 +44,11 @@ const Header = () => {
             </a>
           </NavMenu>
           <Icons>
-            <a>
-              <BsSearch color='#f9f9f9' size={25} style={{ marginRight: '2rem' }} />
-            </a>
+            <NavLink to='/search' style={{ textDecoration: 'none' }}>
+              <a>
+                <BsSearch color='#f9f9f9' size={25} style={{ marginRight: '2rem' }} />
+              </a>
+            </NavLink>
             <a>
               <MdOutlineShoppingCart color='#f9f9f9' size={25} />
             </a>

@@ -2,7 +2,7 @@ import { ALL_PRODUCT_FAIL, ALL_PRODUCT_REQUEST, ALL_PRODUCT_SUCCESS, CLEAR_ERROR
 
 const initialState = {
   products: [],
-  product: []
+  product: {}
 };
 
 export const productReducer = (state = initialState.products, { type, payload }) => {
@@ -16,7 +16,9 @@ export const productReducer = (state = initialState.products, { type, payload })
       return {
         loading: false,
         products: payload.products,
-        productsCount: payload.productsCount
+        productsCount: payload.productsCount,
+        resultPerPage: payload.resultPerPage,
+        filteredProductsCount: payload.filteredProductsCount
       };
     case ALL_PRODUCT_FAIL:
       return {

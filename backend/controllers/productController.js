@@ -18,14 +18,29 @@ export const createProduct = catchAsyncErrors(async (req, res, next) => {
 //! GET PRODUCTS
 export const getAllProducts = catchAsyncErrors(async (req, res, next) => {
   //! Search, Filter & Pagination to backend
-  const resultPerPage = 8;
+  const resultPerPage = 4;
   const productsCount = await ProductModel.countDocuments();
+  // console.log(req.query);
 
-  const apiFeature = new ApiFeatures(ProductModel.find(), req.query).search().filter().pagination(resultPerPage);
-  // const products = await ProductModel.find();
-  const products = await apiFeature.query;
+  const apiFeature = new ApiFeatures(ProductModel.find(), req.query).search().filter();
 
-  res.status(200).json({ success: true, products, productsCount });
+  apiFeature.pagination(resultPerPage);
+
+  let products = await apiFeature.query;
+  // console.log(products);
+
+  let filteredProductsCount = products.length;
+  // console.log(filteredProductsCount);
+
+  // console.log(products);
+
+  res.status(200).json({
+    success: true,
+    products,
+    productsCount,
+    resultPerPage,
+    filteredProductsCount
+  });
 });
 
 //! UPDATE PRODUCT

@@ -1,6 +1,6 @@
 import { Rating } from '@material-ui/lab';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAlert } from 'react-alert';
 import Carousel from 'react-material-ui-carousel';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,23 +12,22 @@ import './ProductDetails.css';
 import ReviewCard from './ReviewCard';
 
 const ProductDetails = () => {
-  const alert = useAlert();
+  const dispatch = useDispatch();
   const { id } = useParams();
   // console.log(id);
-  const dispatch = useDispatch();
-  const { product, loading, error } = useSelector(state => state.productDetails);
-  // console.log(product);
-
-  const options = {
-    size: 'large',
-    value: product.ratings,
-    readOnly: true,
-    precision: 0.5
-  };
+  const alert = useAlert();
   const [quantity, setQuantity] = useState(1);
   const [open, setOpen] = useState(false);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
+  const { product, loading, error } = useSelector(state => state.productDetails);
+  // console.log(product);
+  const options = {
+    size: 'large',
+    value: product?.ratings,
+    readOnly: true,
+    precision: 0.5
+  };
 
   useEffect(() => {
     if (error) {
@@ -40,10 +39,10 @@ const ProductDetails = () => {
 
   return (
     <>
-      {loading ? (
+      {loading || !product ? (
         <Loader />
       ) : (
-        <Fragment>
+        <>
           <MetaData title={`${product.name} -- ECOMMERCE`} />
           <div className='ProductDetails'>
             <div>
@@ -108,7 +107,7 @@ const ProductDetails = () => {
           </Dialog>
 
           {product.reviews && product.reviews[0] ? <div className='reviews'>{product.reviews && product.reviews.map(review => <ReviewCard key={review._id} review={review} />)}</div> : <p className='noReviews'>No Reviews Yet</p>}
-        </Fragment>
+        </>
       )}
     </>
   );
