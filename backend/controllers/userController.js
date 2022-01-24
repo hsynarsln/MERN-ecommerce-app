@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import cloudinary from 'cloudinary';
 import crypto from 'crypto';
 import catchAsyncErrors from '../middleware/catchAsyncErrors.js';
 import User from '../models/userModel.js';
@@ -8,6 +9,13 @@ import sendEmail from '../utils/sendEmail.js';
 
 //! REGISTER
 export const registerUser = catchAsyncErrors(async (req, res, next) => {
+  //! image upload to cloudinary
+  const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+    folder: 'avatars',
+    width: 150,
+    crop: 'scale'
+  });
+
   const { name, email, password } = req.body;
 
   const user = await User.create({
@@ -15,8 +23,10 @@ export const registerUser = catchAsyncErrors(async (req, res, next) => {
     email,
     password,
     avatar: {
-      public_id: 'this is a sample id',
-      url: 'profilepicUrl'
+      // public_id: 'this is a sample id',
+      // url: 'profilepicUrl'
+      public_id: myCloud.public_id,
+      url: myCloud.secure_url
     }
   });
 

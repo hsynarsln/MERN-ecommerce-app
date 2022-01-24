@@ -9,10 +9,12 @@ import usersvg from '../../../images/user.svg';
 const Header = () => {
   const navigate = useNavigate();
   //! username ve userPhoto bilgilerini retrieve yapıyoruz
-  const username = true;
+  const username = false;
 
   //! google authentication (look at the docs)
-  const handleAuth = async () => {};
+  const handleAuth = async () => {
+    navigate('/login');
+  };
 
   return (
     <Nav>

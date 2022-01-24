@@ -6,6 +6,7 @@ import Header from './components/layout/header/Header';
 import ProductDetails from './components/product/ProductDetails';
 import Products from './components/product/Products';
 import Search from './components/product/Search';
+import Auth from './components/user/Auth';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path='/products' element={<Products />} />
         <Route path='/products/:keyword' element={<Products />} />
         <Route path='/search' element={<Search />} />
+        <Route path='/login' element={<Auth />} />
       </Routes>
       <Footer />
     </Router>
