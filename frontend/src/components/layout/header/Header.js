@@ -1,15 +1,16 @@
 import React from 'react';
 import { BsSearch } from 'react-icons/bs';
 import { MdOutlineShoppingCart } from 'react-icons/md';
+import { useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../../../images/logos.png';
-import usersvg from '../../../images/user.svg';
+import UserOptions from './UserOptions';
 
 const Header = () => {
   const navigate = useNavigate();
   //! username ve userPhoto bilgilerini retrieve yapıyoruz
-  const username = false;
+  const { user, isAuthenticated } = useSelector(state => state.user);
 
   //! google authentication (look at the docs)
   const handleAuth = async () => {
@@ -23,44 +24,39 @@ const Header = () => {
       </Logo>
 
       {/* //! user mevcut değilse --> login page'e git. mevcut ise navMenu görünsün */}
-      {!username ? (
+      {!isAuthenticated ? (
         <Login onClick={handleAuth}>Login</Login>
       ) : (
         <>
           <NavMenu>
             <NavLink to='/' style={{ textDecoration: 'none' }}>
-              <a>
-                <span>HOME</span>
-              </a>
+              <span>HOME</span>
             </NavLink>
             <NavLink to='/products' style={{ textDecoration: 'none' }}>
-              <a>
-                <span>PRODUCTS</span>
-              </a>
+              <span>PRODUCTS</span>
             </NavLink>
-            <a>
+            <NavLink to='/contact' style={{ textDecoration: 'none' }}>
               <span>CONTACT</span>
-            </a>
-            <a>
+            </NavLink>
+            <NavLink to='/about' style={{ textDecoration: 'none' }}>
               <span>ABOUT</span>
-            </a>
+            </NavLink>
           </NavMenu>
           <Icons>
             <NavLink to='/search' style={{ textDecoration: 'none' }}>
-              <a>
-                <BsSearch color='#f9f9f9' size={25} style={{ marginRight: '2rem' }} />
-              </a>
+              <BsSearch color='#f9f9f9' size={25} style={{ marginRight: '2rem' }} />
             </NavLink>
-            <a>
+            <NavLink to='/cart' style={{ textDecoration: 'none' }}>
               <MdOutlineShoppingCart color='#f9f9f9' size={25} />
-            </a>
+            </NavLink>
           </Icons>
-          <SignOut>
-            <UserImg src={usersvg} alt={username} />
+          <Profile>{isAuthenticated && <UserOptions user={user} />}</Profile>
+          {/* <SignOut>
+            <UserImg src={usersvg} alt={user.name} />
             <Dropdown>
               <span onClick={handleAuth}>Sign out</span>
             </Dropdown>
-          </SignOut>
+          </SignOut> */}
         </>
       )}
     </Nav>
@@ -224,6 +220,11 @@ const Icons = styled.div`
   align-items: center;
   justify-content: space-between;
   margin: 0 5rem;
+`;
+
+const Profile = styled.div`
+  margin-top: 15rem;
+  margin-left: 2rem;
 `;
 
 export default Header;
