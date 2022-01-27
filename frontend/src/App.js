@@ -9,7 +9,10 @@ import ProductDetails from './components/product/ProductDetails';
 import Products from './components/product/Products';
 import Search from './components/product/Search';
 import Auth from './components/user/Auth';
+import ForgotPassword from './components/user/ForgotPassword';
 import Profile from './components/user/Profile';
+import ResetPassword from './components/user/ResetPassword';
+import UpdatePassword from './components/user/UpdatePassword';
 import UpdateProfile from './components/user/UpdateProfile';
 import { loadUser } from './redux/actions/userAction';
 import store from './redux/store/store';
@@ -51,6 +54,16 @@ function App() {
             </RequireAuth>
           }
         />
+        <Route
+          path='/password/update'
+          element={
+            <RequireAuth redirectTo='/login'>
+              <UpdatePassword />
+            </RequireAuth>
+          }
+        />
+        <Route path='password/forgot' element={<ForgotPassword />} />
+        <Route path='password/reset/:token' element={<ResetPassword />} />
       </Routes>
       <Footer />
     </Router>
