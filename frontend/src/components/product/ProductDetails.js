@@ -5,6 +5,7 @@ import { useAlert } from 'react-alert';
 import Carousel from 'react-material-ui-carousel';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { addItemsToCart } from '../../redux/actions/cartActions';
 import { clearErrors, getProductDetails } from '../../redux/actions/productAction';
 import Loader from '../layout/loader/Loader';
 import MetaData from '../layout/Metadata';
@@ -27,6 +28,25 @@ const ProductDetails = () => {
     value: product?.ratings,
     readOnly: true,
     precision: 0.5
+  };
+
+  const increaseQuantity = () => {
+    if (product.stock <= quantity) return;
+
+    const qty = quantity + 1;
+    setQuantity(qty);
+  };
+
+  const decreaseQuantity = () => {
+    if (1 >= quantity) return;
+
+    const qty = quantity - 1;
+    setQuantity(qty);
+  };
+
+  const addToCartHandler = () => {
+    dispatch(addItemsToCart(id, quantity));
+    alert.success('Item added to cart');
   };
 
   useEffect(() => {
@@ -62,11 +82,11 @@ const ProductDetails = () => {
                 <h1>{`$${product.price}`}</h1>
                 <div className='detailsBlock-3-1'>
                   <div className='detailsBlock-3-1-1'>
-                    <button onClick={() => {}}>-</button>
+                    <button onClick={decreaseQuantity}>-</button>
                     <input readOnly type='number' value={quantity} />
-                    <button onClick={() => {}}>+</button>
+                    <button onClick={increaseQuantity}>+</button>
                   </div>
-                  <button disabled={product.Stock < 1 ? true : false} onClick={() => {}}>
+                  <button disabled={product.Stock < 1 ? true : false} onClick={addToCartHandler}>
                     Add to Cart
                   </button>
                 </div>

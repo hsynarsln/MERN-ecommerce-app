@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
+import Cart from './components/cart/Cart';
 import Home from './components/home/Home';
 import Footer from './components/layout/footer/Footer';
 import Header from './components/layout/header/Header';
@@ -64,6 +65,7 @@ function App() {
         />
         <Route path='password/forgot' element={<ForgotPassword />} />
         <Route path='password/reset/:token' element={<ResetPassword />} />
+        <Route path='cart' element={<Cart />} />
       </Routes>
       <Footer />
     </Router>

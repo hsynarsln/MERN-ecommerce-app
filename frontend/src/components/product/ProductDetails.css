@@ -79,11 +79,11 @@
 
 .detailsBlock-3-1-1 > input {
   border: none;
-  padding: 0.8vmax;
-  width: 1vmax;
+  /* padding: 0.5vmax; */
+  width: 5vmax;
   text-align: center;
   outline: none;
-  font: 600 1vmax 'Roboto';
+  font: 600 1.5vmax 'Roboto';
   color: rgba(0, 0, 0);
 }
 
@@ -242,9 +242,9 @@
   }
 
   .detailsBlock-3-1-1 > input {
-    padding: 1.5vmax;
-    width: 3vmax;
-    font: 400 1.8vmax 'Roboto';
+    padding: 1vmax;
+    width: 5vmax;
+    font: 600 1.5vmax 'Roboto';
   }
 
   .detailsBlock-3-1 > button:last-child {
