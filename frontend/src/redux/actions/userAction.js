@@ -63,7 +63,7 @@ export const loadUser = () => async dispatch => {
 //! LOGOUT
 export const logout = () => async dispatch => {
   try {
-    await axios.get(`http://localhost:4000/api/v1/logout`);
+    await axios.get(`http://localhost:4000/api/v1/logout`, { withCredentials: true });
     // console.log(data);
 
     dispatch({ type: LOGOUT_SUCCESS });
