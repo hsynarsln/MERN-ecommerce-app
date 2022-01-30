@@ -4,7 +4,7 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import React, { useEffect, useRef, useState } from 'react';
 import { useAlert } from 'react-alert';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { clearErrors, login, register } from '../../redux/actions/userAction';
 import Loader from '../layout/loader/Loader';
 import './Auth.css';
@@ -27,6 +27,7 @@ const Auth = () => {
   const [avatarPreview, setAvatarPreview] = useState('/user.svg');
   const { loading, error, isAuthenticated } = useSelector(state => state.user);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const loginSubmit = e => {
     e.preventDefault();
@@ -60,15 +61,19 @@ const Auth = () => {
     }
   };
 
+  // console.log(location);
+  const redirect = location.search ? location.search.split('=')[1] : '/account';
+  // console.log(redirect);
+
   useEffect(() => {
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
     }
     if (isAuthenticated) {
-      navigate('/account');
+      navigate(redirect);
     }
-  }, [dispatch, error, alert, navigate, isAuthenticated]);
+  }, [dispatch, error, alert, navigate, isAuthenticated, redirect]);
 
   const switchTabs = (e, tab) => {
     if (tab === 'login') {
