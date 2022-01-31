@@ -24,41 +24,44 @@ const Header = () => {
       </Logo>
 
       {/* //! user mevcut değilse --> login page'e git. mevcut ise navMenu görünsün */}
-      {!isAuthenticated ? (
-        <Login onClick={handleAuth}>Login</Login>
-      ) : (
-        <>
-          <NavMenu>
-            <NavLink to='/' style={{ textDecoration: 'none' }}>
-              <span>HOME</span>
-            </NavLink>
-            <NavLink to='/products' style={{ textDecoration: 'none' }}>
-              <span>PRODUCTS</span>
-            </NavLink>
-            <NavLink to='/contact' style={{ textDecoration: 'none' }}>
-              <span>CONTACT</span>
-            </NavLink>
-            <NavLink to='/about' style={{ textDecoration: 'none' }}>
-              <span>ABOUT</span>
-            </NavLink>
-          </NavMenu>
-          <Icons>
-            <NavLink to='/search' style={{ textDecoration: 'none' }}>
-              <BsSearch color='#f9f9f9' size={25} style={{ marginRight: '2rem' }} />
-            </NavLink>
-            <NavLink to='/cart' style={{ textDecoration: 'none' }}>
-              <MdOutlineShoppingCart color='#f9f9f9' size={25} />
-            </NavLink>
-          </Icons>
-          <Profile>{isAuthenticated && <UserOptions user={user} />}</Profile>
-          {/* <SignOut>
+
+      <>
+        <NavMenu>
+          <NavLink to='/' style={{ textDecoration: 'none' }}>
+            <span>HOME</span>
+          </NavLink>
+          <NavLink to='/products' style={{ textDecoration: 'none' }}>
+            <span>PRODUCTS</span>
+          </NavLink>
+          <NavLink to='/contact' style={{ textDecoration: 'none' }}>
+            <span>CONTACT</span>
+          </NavLink>
+          <NavLink to='/about' style={{ textDecoration: 'none' }}>
+            <span>ABOUT</span>
+          </NavLink>
+        </NavMenu>
+        <Icons>
+          <NavLink to='/search' style={{ textDecoration: 'none' }}>
+            <BsSearch color='#f9f9f9' size={25} style={{ marginRight: '2rem' }} />
+          </NavLink>
+          <NavLink to='/cart' style={{ textDecoration: 'none' }}>
+            <MdOutlineShoppingCart color='#f9f9f9' size={25} />
+          </NavLink>
+        </Icons>
+        {!isAuthenticated ? (
+          <Login onClick={handleAuth}>Login</Login>
+        ) : (
+          <Profile>
+            <UserOptions user={user} />
+          </Profile>
+        )}
+        {/* <SignOut>
             <UserImg src={usersvg} alt={user.name} />
             <Dropdown>
               <span onClick={handleAuth}>Sign out</span>
             </Dropdown>
           </SignOut> */}
-        </>
-      )}
+      </>
     </Nav>
   );
 };

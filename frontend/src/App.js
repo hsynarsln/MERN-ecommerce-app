@@ -13,6 +13,8 @@ import Shipping from './components/cart/Shipping';
 import Home from './components/home/Home';
 import Footer from './components/layout/footer/Footer';
 import Header from './components/layout/header/Header';
+import MyOrders from './components/order/MyOrders';
+import OrderDetails from './components/order/OrderDetails';
 import ProductDetails from './components/product/ProductDetails';
 import Products from './components/product/Products';
 import Search from './components/product/Search';
@@ -42,7 +44,7 @@ function App() {
   }, []);
 
   function RequireAuth({ children, redirectTo }) {
-    return isAuthenticated ? children : <Navigate to={redirectTo} />;
+    return isAuthenticated === true ? children : <Navigate to={redirectTo} />;
   }
 
   return (
@@ -115,6 +117,22 @@ function App() {
           element={
             <RequireAuth redirectTo='/login'>
               <OrderSuccess />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path='/orders'
+          element={
+            <RequireAuth redirectTo='/login'>
+              <MyOrders />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path='/order/:id'
+          element={
+            <RequireAuth redirectTo='/login'>
+              <OrderDetails />
             </RequireAuth>
           }
         />
