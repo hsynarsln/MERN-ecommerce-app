@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === 'development') {
 // const store = createStore(rootReducer, applyMiddleware(thunk));
 
 store.subscribe(() => {
-  console.log(store.getState());
+  // console.log(store.getState());
 });
 
 //! chrome'da extension'da state'leri görebiliyoruz.
