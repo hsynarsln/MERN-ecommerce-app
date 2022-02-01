@@ -1,3 +1,5 @@
+import MenuIcon from '@mui/icons-material/Menu';
+import { Button, Menu, MenuItem } from '@mui/material';
 import React from 'react';
 import { BsSearch } from 'react-icons/bs';
 import { MdOutlineShoppingCart } from 'react-icons/md';
@@ -12,6 +14,15 @@ const Header = () => {
   //! username ve userPhoto bilgilerini retrieve yapıyoruz
   const { user, isAuthenticated } = useSelector(state => state.user);
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   //! google authentication (look at the docs)
   const handleAuth = async () => {
     navigate('/login');
@@ -25,6 +36,36 @@ const Header = () => {
 
       {/* //! user mevcut değilse --> login page'e git. mevcut ise navMenu görünsün */}
 
+      <HamburgerMenu>
+        <Button id='basic-button' aria-controls={open ? 'basic-menu' : undefined} aria-haspopup='true' aria-expanded={open ? 'true' : undefined} onClick={handleClick}>
+          <MenuIcon fontSize='large' />
+        </Button>
+        <Menu
+          id='basic-menu'
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            'aria-labelledby': 'basic-button'
+          }}
+        >
+          <NavLink to='/' style={{ textDecoration: 'none', color: '#090b13' }}>
+            <MenuItem onClick={handleClose}>Home</MenuItem>
+          </NavLink>
+          <br />
+          <NavLink to='/products' style={{ textDecoration: 'none', color: '#090b13' }}>
+            <MenuItem onClick={handleClose}>Products</MenuItem>
+          </NavLink>
+          <br />
+          <NavLink to='/contact' style={{ textDecoration: 'none', color: '#090b13' }}>
+            <MenuItem onClick={handleClose}>Contact</MenuItem>
+          </NavLink>
+          <br />
+          <NavLink to='/about' style={{ textDecoration: 'none', color: '#090b13' }}>
+            <MenuItem onClick={handleClose}>About</MenuItem>
+          </NavLink>
+        </Menu>
+      </HamburgerMenu>
       <>
         <NavMenu>
           <NavLink to='/' style={{ textDecoration: 'none' }}>
@@ -55,12 +96,6 @@ const Header = () => {
             <UserOptions user={user} />
           </Profile>
         )}
-        {/* <SignOut>
-            <UserImg src={usersvg} alt={user.name} />
-            <Dropdown>
-              <span onClick={handleAuth}>Sign out</span>
-            </Dropdown>
-          </SignOut> */}
       </>
     </Nav>
   );
@@ -92,6 +127,14 @@ const Logo = styled.a`
   img {
     display: block;
     width: 100%;
+  }
+`;
+
+const HamburgerMenu = styled.div`
+  z-index: 4;
+  color: #f9f9f9;
+  @media (min-width: 768px) {
+    display: none;
   }
 `;
 
