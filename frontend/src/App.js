@@ -8,6 +8,7 @@ import './App.css';
 import Dashboard from './components/admin/Dashboard';
 import NewProduct from './components/admin/NewProduct';
 import ProductList from './components/admin/ProductList';
+import UpdateProduct from './components/admin/UpdateProduct';
 import Cart from './components/cart/Cart';
 import ConfirmOrder from './components/cart/ConfirmOrder';
 import OrderSuccess from './components/cart/OrderSuccess';
@@ -168,6 +169,14 @@ function App() {
           element={
             <RequireAuth isAdmin={true} redirectTo='/login'>
               <NewProduct />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path='/admin/product/:id'
+          element={
+            <RequireAuth isAdmin={true} redirectTo='/login'>
+              <UpdateProduct />
             </RequireAuth>
           }
         />

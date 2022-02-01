@@ -6,7 +6,8 @@ import React, { Fragment, useEffect } from 'react';
 import { useAlert } from 'react-alert';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { clearErrors, getAdminProducts } from '../../redux/actions/productAction';
+import { clearErrors, deleteProduct, getAdminProducts } from '../../redux/actions/productAction';
+import { DELETE_PRODUCT_RESET } from '../../redux/constants/productConstants';
 import MetaData from '../layout/Metadata';
 import './ProductList.css';
 import Sidebar from './Sidebar';
@@ -14,8 +15,13 @@ import Sidebar from './Sidebar';
 const ProductList = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
-  const { error, products } = useSelector(state => state.products);
   const navigate = useNavigate();
+  const { error, products } = useSelector(state => state.products);
+  const { error: deleteError, isDeleted } = useSelector(state => state.product);
+
+  const deleteProductHandler = id => {
+    dispatch(deleteProduct(id));
+  };
 
   useEffect(() => {
     if (error) {
@@ -23,19 +29,19 @@ const ProductList = () => {
       dispatch(clearErrors());
     }
 
-    // if (deleteError) {
-    //   alert.error(deleteError);
-    //   dispatch(clearErrors());
-    // }
+    if (deleteError) {
+      alert.error(deleteError);
+      dispatch(clearErrors());
+    }
 
-    // if (isDeleted) {
-    //   alert.success("Product Deleted Successfully");
-    //   history.push("/admin/dashboard");
-    //   dispatch({ type: DELETE_PRODUCT_RESET });
-    // }
+    if (isDeleted) {
+      alert.success('Product Deleted Successfully');
+      navigate('/admin/dashboard');
+      dispatch({ type: DELETE_PRODUCT_RESET });
+    }
 
     dispatch(getAdminProducts());
-  }, [dispatch, alert, error]);
+  }, [dispatch, alert, error, deleteError, navigate, isDeleted]);
 
   const columns = [
     { field: 'id', headerName: 'Product ID', minWidth: 200, flex: 0.5 },
@@ -76,12 +82,7 @@ const ProductList = () => {
               <EditIcon />
             </NavLink>
 
-            <Button
-              onClick={
-                () => {}
-                // deleteProductHandler(params.getValue(params.id, "id"))
-              }
-            >
+            <Button onClick={() => deleteProductHandler(params.getValue(params.id, 'id'))}>
               <DeleteIcon />
             </Button>
           </Fragment>
@@ -96,7 +97,7 @@ const ProductList = () => {
     products.forEach(item => {
       rows.push({
         id: item._id,
-        stock: item.Stock,
+        stock: item.stock,
         price: item.price,
         name: item.name
       });

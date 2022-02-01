@@ -7,44 +7,55 @@ import { Button } from '@mui/material';
 import React, { Fragment, useEffect, useState } from 'react';
 import { useAlert } from 'react-alert';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { clearErrors, createProduct } from '../../redux/actions/productAction';
-import { NEW_PRODUCT_RESET } from '../../redux/constants/productConstants';
+import { useNavigate, useParams } from 'react-router-dom';
+import { clearErrors, getProductDetails, updateProduct } from '../../redux/actions/productAction';
+import { UPDATE_PRODUCT_RESET } from '../../redux/constants/productConstants';
 import MetaData from '../layout/Metadata';
-import './NewProduct.css';
 import Sidebar from './Sidebar';
 
-const NewProduct = () => {
+const UpdateProduct = () => {
+  const { id } = useParams();
   const dispatch = useDispatch();
   const alert = useAlert();
   const navigate = useNavigate();
 
-  const { loading, error, success } = useSelector(state => state.newProduct);
+  const { error, product } = useSelector(state => state.productDetails);
 
-  const [name, setName] = useState('');
-  const [price, setPrice] = useState(0);
-  const [description, setDescription] = useState('');
-  const [category, setCategory] = useState('');
-  const [stock, setStock] = useState(0);
+  const { loading, error: updateError, isUpdated } = useSelector(state => state.product);
+
+  const [name, setName] = useState(product?.name);
+  const [price, setPrice] = useState(product?.price);
+  const [description, setDescription] = useState(product?.description);
+  const [category, setCategory] = useState(product?.category);
+  const [stock, setStock] = useState(product?.stock);
   const [images, setImages] = useState([]);
+  const [oldImages, setOldImages] = useState(product?.images);
   const [imagesPreview, setImagesPreview] = useState([]);
 
   const categories = ['Laptop', 'Footwear', 'Bottom', 'Tops', 'Attire', 'Camera', 'SmartPhones'];
 
   useEffect(() => {
+    if (!product) {
+      dispatch(getProductDetails(id));
+    }
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
     }
 
-    if (success) {
-      alert.success('Product Created Successfully');
-      navigate('/admin/dashboard');
-      dispatch({ type: NEW_PRODUCT_RESET });
+    if (updateError) {
+      alert.error(updateError);
+      dispatch(clearErrors());
     }
-  }, [dispatch, alert, error, navigate, success]);
 
-  const createProductSubmitHandler = e => {
+    if (isUpdated) {
+      alert.success('Product Updated Successfully');
+      navigate('/admin/products');
+      dispatch({ type: UPDATE_PRODUCT_RESET });
+    }
+  }, [dispatch, alert, error, navigate, isUpdated, id, product, updateError]);
+
+  const updateProductSubmitHandler = e => {
     e.preventDefault();
 
     const myForm = new FormData();
@@ -58,14 +69,15 @@ const NewProduct = () => {
     images.forEach(image => {
       myForm.append('images', image);
     });
-    dispatch(createProduct(myForm));
+    dispatch(updateProduct(id, myForm));
   };
 
-  const createProductImagesChange = e => {
+  const updateProductImagesChange = e => {
     const files = Array.from(e.target.files);
 
     setImages([]);
     setImagesPreview([]);
+    setOldImages([]);
 
     files.forEach(file => {
       const reader = new FileReader();
@@ -80,15 +92,14 @@ const NewProduct = () => {
       reader.readAsDataURL(file);
     });
   };
-
   return (
     <Fragment>
       <MetaData title='Create Product' />
       <div className='dashboard'>
         <Sidebar />
         <div className='newProductContainer'>
-          <form className='createProductForm' encType='multipart/form-data' onSubmit={createProductSubmitHandler}>
-            <h1>Create Product</h1>
+          <form className='createProductForm' encType='multipart/form-data' onSubmit={updateProductSubmitHandler}>
+            <h1>Update Product</h1>
 
             <div>
               <SpellcheckIcon />
@@ -96,7 +107,7 @@ const NewProduct = () => {
             </div>
             <div>
               <AttachMoneyIcon />
-              <input type='number' placeholder='Price' required onChange={e => setPrice(e.target.value)} />
+              <input type='number' placeholder='Price' required onChange={e => setPrice(e.target.value)} value={price} />
             </div>
 
             <div>
@@ -107,7 +118,7 @@ const NewProduct = () => {
 
             <div>
               <AccountTreeIcon />
-              <select onChange={e => setCategory(e.target.value)}>
+              <select value={category} onChange={e => setCategory(e.target.value)}>
                 <option value=''>Choose Category</option>
                 {categories.map(cate => (
                   <option key={cate} value={cate}>
@@ -119,12 +130,14 @@ const NewProduct = () => {
 
             <div>
               <StorageIcon />
-              <input type='number' placeholder='Stock' required onChange={e => setStock(e.target.value)} />
+              <input type='number' placeholder='Stock' required onChange={e => setStock(e.target.value)} value={stock} />
             </div>
 
             <div id='createProductFormFile'>
-              <input type='file' name='avatar' accept='image/*' onChange={createProductImagesChange} multiple />
+              <input type='file' name='avatar' accept='image/*' onChange={updateProductImagesChange} multiple />
             </div>
+
+            <div id='createProductFormImage'>{oldImages && oldImages.map((image, index) => <img key={index} src={image.url} alt='Old Product Preview' />)}</div>
 
             <div id='createProductFormImage'>
               {imagesPreview.map((image, index) => (
@@ -142,4 +155,4 @@ const NewProduct = () => {
   );
 };
 
-export default NewProduct;
+export default UpdateProduct;
