@@ -5,6 +5,9 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
+import Dashboard from './components/admin/Dashboard';
+import NewProduct from './components/admin/NewProduct';
+import ProductList from './components/admin/ProductList';
 import Cart from './components/cart/Cart';
 import ConfirmOrder from './components/cart/ConfirmOrder';
 import OrderSuccess from './components/cart/OrderSuccess';
@@ -43,8 +46,16 @@ function App() {
     getStripeApiKey();
   }, []);
 
-  function RequireAuth({ children, redirectTo }) {
-    return isAuthenticated === true ? children : <Navigate to={redirectTo} />;
+  function RequireAuth({ isAdmin, children, redirectTo }) {
+    if (!isAuthenticated) {
+      return <Navigate to={redirectTo} />;
+    }
+    if (isAdmin === true && user.role !== 'admin') {
+      return <Navigate to={redirectTo} />;
+    }
+    return children;
+    // return isAuthenticated === true ? children : <Navigate to={redirectTo} />;
+    // return isAdmin === true && user.role !== 'admin' ? children : <Navigate to={redirectTo} />;
   }
 
   return (
@@ -133,6 +144,30 @@ function App() {
           element={
             <RequireAuth redirectTo='/login'>
               <OrderDetails />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path='/admin/dashboard'
+          element={
+            <RequireAuth isAdmin={true} redirectTo='/login'>
+              <Dashboard />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path='/admin/products'
+          element={
+            <RequireAuth isAdmin={true} redirectTo='/login'>
+              <ProductList />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path='/admin/product/new'
+          element={
+            <RequireAuth isAdmin={true} redirectTo='/login'>
+              <NewProduct />
             </RequireAuth>
           }
         />

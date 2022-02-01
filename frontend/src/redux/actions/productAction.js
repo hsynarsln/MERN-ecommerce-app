@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ALL_PRODUCT_FAIL, ALL_PRODUCT_REQUEST, ALL_PRODUCT_SUCCESS, CLEAR_ERRORS, NEW_REVIEW_FAIL, NEW_REVIEW_REQUEST, NEW_REVIEW_SUCCESS, PRODUCT_DETAILS_FAIL, PRODUCT_DETAILS_REQUEST, PRODUCT_DETAILS_SUCCESS } from '../constants/productConstants';
+import { ADMIN_PRODUCT_FAIL, ADMIN_PRODUCT_REQUEST, ADMIN_PRODUCT_SUCCESS, ALL_PRODUCT_FAIL, ALL_PRODUCT_REQUEST, ALL_PRODUCT_SUCCESS, CLEAR_ERRORS, NEW_PRODUCT_FAIL, NEW_PRODUCT_REQUEST, NEW_PRODUCT_SUCCESS, NEW_REVIEW_FAIL, NEW_REVIEW_REQUEST, NEW_REVIEW_SUCCESS, PRODUCT_DETAILS_FAIL, PRODUCT_DETAILS_REQUEST, PRODUCT_DETAILS_SUCCESS } from '../constants/productConstants';
 
 //! GET PRODUCT
 export const getProduct =
@@ -30,6 +30,45 @@ export const getProduct =
       });
     }
   };
+
+//! GET PRODUCTS FOR ADMIN
+export const getAdminProducts = () => async dispatch => {
+  try {
+    dispatch({ type: ADMIN_PRODUCT_REQUEST });
+
+    const { data } = await axios.get('http://localhost:4000/api/v1/admin/products', { withCredentials: true });
+
+    dispatch({ type: ADMIN_PRODUCT_SUCCESS, payload: data.products });
+  } catch (error) {
+    dispatch({
+      type: ADMIN_PRODUCT_FAIL,
+      payload: error.response.data.message
+    });
+  }
+};
+
+//! NEW PRODUCT ADMIN
+export const createProduct = productData => async dispatch => {
+  try {
+    dispatch({ type: NEW_PRODUCT_REQUEST });
+
+    const { data } = await axios.post(
+      `http://localhost:4000/api/v1/admin/product/new`,
+      productData,
+      { withCredentials: true },
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    // console.log(data);
+
+    dispatch({ type: NEW_PRODUCT_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({ type: NEW_PRODUCT_FAIL, payload: error.response.data.message });
+  }
+};
 
 //! GET PRODUCT DETAILS
 export const getProductDetails = id => async dispatch => {
