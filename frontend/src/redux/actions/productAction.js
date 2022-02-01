@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ALL_PRODUCT_FAIL, ALL_PRODUCT_REQUEST, ALL_PRODUCT_SUCCESS, CLEAR_ERRORS, PRODUCT_DETAILS_FAIL, PRODUCT_DETAILS_REQUEST, PRODUCT_DETAILS_SUCCESS } from '../constants/productConstants';
+import { ALL_PRODUCT_FAIL, ALL_PRODUCT_REQUEST, ALL_PRODUCT_SUCCESS, CLEAR_ERRORS, NEW_REVIEW_FAIL, NEW_REVIEW_REQUEST, NEW_REVIEW_SUCCESS, PRODUCT_DETAILS_FAIL, PRODUCT_DETAILS_REQUEST, PRODUCT_DETAILS_SUCCESS } from '../constants/productConstants';
 
 //! GET PRODUCT
 export const getProduct =
@@ -50,6 +50,29 @@ export const getProductDetails = id => async dispatch => {
       type: PRODUCT_DETAILS_FAIL,
       payload: error.response.data.message
     });
+  }
+};
+
+//! NEW REVIEW
+export const newReview = reviewData => async dispatch => {
+  try {
+    dispatch({ type: NEW_REVIEW_REQUEST });
+
+    const { data } = await axios.put(
+      `http://localhost:4000/api/v1/review`,
+      reviewData,
+      { withCredentials: true },
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    // console.log(data);
+
+    dispatch({ type: NEW_REVIEW_SUCCESS, payload: data.success });
+  } catch (error) {
+    dispatch({ type: NEW_REVIEW_FAIL, payload: error.response.data.message });
   }
 };
 
