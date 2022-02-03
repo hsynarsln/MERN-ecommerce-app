@@ -11,6 +11,8 @@ import OrderList from './components/admin/OrderList';
 import ProcessOrder from './components/admin/ProcessOrder';
 import ProductList from './components/admin/ProductList';
 import UpdateProduct from './components/admin/UpdateProduct';
+import UpdateUser from './components/admin/UpdateUser';
+import UserList from './components/admin/UserList';
 import Cart from './components/cart/Cart';
 import ConfirmOrder from './components/cart/ConfirmOrder';
 import OrderSuccess from './components/cart/OrderSuccess';
@@ -195,6 +197,22 @@ function App() {
           element={
             <RequireAuth isAdmin={true} redirectTo='/login'>
               <ProcessOrder />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path='/admin/users'
+          element={
+            <RequireAuth isAdmin={true} redirectTo='/login'>
+              <UserList />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path='/admin/user/:id'
+          element={
+            <RequireAuth isAdmin={true} redirectTo='/login'>
+              <UpdateUser />
             </RequireAuth>
           }
         />

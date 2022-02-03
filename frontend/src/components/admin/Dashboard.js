@@ -4,7 +4,9 @@ import React, { useEffect } from 'react';
 import { Doughnut, Line } from 'react-chartjs-2';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { getAllOrders } from '../../redux/actions/orderAction';
 import { getAdminProducts } from '../../redux/actions/productAction';
+import { getAllUsers } from '../../redux/actions/userAction';
 import MetaData from '../layout/Metadata';
 import './Dashboard.css';
 import Sidebar from './Sidebar';
@@ -14,6 +16,8 @@ ChartJS.register(ArcElement, CategoryScale, LinearScale, PointElement, LineEleme
 const Dashboard = () => {
   const dispatch = useDispatch();
   const { products } = useSelector(state => state.products);
+  const { allOrders } = useSelector(state => state.allOrders);
+  const { users } = useSelector(state => state.allUser);
 
   let outOfStock = 0;
 
@@ -26,6 +30,8 @@ const Dashboard = () => {
 
   useEffect(() => {
     dispatch(getAdminProducts());
+    dispatch(getAllOrders());
+    dispatch(getAllUsers());
   }, [dispatch]);
 
   const lineState = {
@@ -70,12 +76,12 @@ const Dashboard = () => {
             </NavLink>
             <NavLink to='/admin/orders'>
               <p>Orders</p>
-              <p>12</p>
+              <p>{allOrders && allOrders.length}</p>
               {/* <p>{orders && orders.length}</p> */}
             </NavLink>
             <NavLink to='/admin/users'>
               <p>Users</p>
-              <p>5</p>
+              <p>{users && users.length}</p>
               {/* <p>{users && users.length}</p> */}
             </NavLink>
           </div>
