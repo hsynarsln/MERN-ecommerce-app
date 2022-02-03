@@ -7,6 +7,8 @@ import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-d
 import './App.css';
 import Dashboard from './components/admin/Dashboard';
 import NewProduct from './components/admin/NewProduct';
+import OrderList from './components/admin/OrderList';
+import ProcessOrder from './components/admin/ProcessOrder';
 import ProductList from './components/admin/ProductList';
 import UpdateProduct from './components/admin/UpdateProduct';
 import Cart from './components/cart/Cart';
@@ -177,6 +179,22 @@ function App() {
           element={
             <RequireAuth isAdmin={true} redirectTo='/login'>
               <UpdateProduct />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path='/admin/orders'
+          element={
+            <RequireAuth isAdmin={true} redirectTo='/login'>
+              <OrderList />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path='/admin/order/:id'
+          element={
+            <RequireAuth isAdmin={true} redirectTo='/login'>
+              <ProcessOrder />
             </RequireAuth>
           }
         />
