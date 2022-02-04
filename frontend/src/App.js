@@ -10,6 +10,7 @@ import NewProduct from './components/admin/NewProduct';
 import OrderList from './components/admin/OrderList';
 import ProcessOrder from './components/admin/ProcessOrder';
 import ProductList from './components/admin/ProductList';
+import ProductReviews from './components/admin/ProductReviews';
 import UpdateProduct from './components/admin/UpdateProduct';
 import UpdateUser from './components/admin/UpdateUser';
 import UserList from './components/admin/UserList';
@@ -213,6 +214,14 @@ function App() {
           element={
             <RequireAuth isAdmin={true} redirectTo='/login'>
               <UpdateUser />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path='/admin/reviews'
+          element={
+            <RequireAuth isAdmin={true} redirectTo='/login'>
+              <ProductReviews />
             </RequireAuth>
           }
         />

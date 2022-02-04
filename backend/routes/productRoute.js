@@ -13,6 +13,6 @@ router.get('/admin/product/:id', getProductDetails);
 router.get('/product/:id', getProductDetails);
 router.put('/review', isAuthenticatedUser, createProductReview);
 router.get('/reviews', getProductReviews);
-router.get('/reviews', isAuthenticatedUser, deleteReview);
+router.delete('/reviews', isAuthenticatedUser, deleteReview);
 
 export default router;
