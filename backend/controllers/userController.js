@@ -86,13 +86,11 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
     //! hashing and adding resetPasswordToken to userSchema
     user.resetPasswordToken = crypto.createHash('sha256').update(resetTokenie).digest('hex');
 
-    user.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
+    user.resetPasswordExpire = Date.now() + 15 * 60 * 1000; //! 15 minutes
 
     return resetTokenie;
   };
   // console.log(resetToken());
-
-  await user.save({ validateBeforeSave: false });
 
   // console.log(req.get('host'));
   const resetPasswordUrl = `${process.env.FRONTEND_URL}/password/reset/${resetToken()}`;
@@ -102,7 +100,8 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
   // console.log(message);
 
   try {
-    // console.log(user.email);
+    await user.save({ validateBeforeSave: false });
+
     await sendEmail({
       email: user.email,
       subject: `Ecommerce Password Recovery`,
@@ -127,11 +126,13 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
 export const resetPassword = catchAsyncErrors(async (req, res, next) => {
   //! creating token hash
   const resetPasswordToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
+  // console.log(resetPasswordToken);
 
   const user = await User.findOne({
     resetPasswordToken,
-    resetPasswordExpire: { $gt: Date.now() } //! greater than date.now()
+    resetPasswordExpire: { $gt: Date.now() }
   });
+  // console.log(user);
 
   if (!user) {
     return next(new ErrorHandler('Reset Password Token is invalid or has been expired', 400));

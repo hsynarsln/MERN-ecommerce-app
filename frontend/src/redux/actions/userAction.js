@@ -67,9 +67,9 @@ export const logout = () => async dispatch => {
     // console.log(data);
 
     dispatch({ type: LOGOUT_SUCCESS });
-    localStorage.removeItem('cartItems');
-    localStorage.removeItem('shippingInfo');
-    sessionStorage.removeItem('orderInfo');
+    // localStorage.removeItem('cartItems');
+    // localStorage.removeItem('shippingInfo');
+    // sessionStorage.removeItem('orderInfo');
   } catch (error) {
     dispatch({ type: LOGOUT_FAIL, payload: error.response.data.message });
   }
