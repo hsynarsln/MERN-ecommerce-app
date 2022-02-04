@@ -112,7 +112,7 @@ const ProductList = () => {
         <div className='productListContainer'>
           <h1 id='productListHeading'>ALL PRODUCTS</h1>
 
-          <DataGrid rows={rows} columns={columns} pageSize={10} disableSelectionOnClick className='productListTable' autoHeight />
+          <DataGrid rows={rows} columns={columns} pageSize={10} rowsPerPageOptions={[10]} disableSelectionOnClick className='productListTable' autoHeight />
         </div>
       </div>
     </Fragment>

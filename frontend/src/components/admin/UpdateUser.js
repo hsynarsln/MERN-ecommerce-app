@@ -22,13 +22,17 @@ const UpdateUser = () => {
 
   const { loading: updateLoading, error: updateError, isUpdated } = useSelector(state => state.profile);
 
-  const [name, setName] = useState(user?.name);
-  const [email, setEmail] = useState(user?.email);
-  const [role, setRole] = useState(user?.role);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [role, setRole] = useState('');
 
   useEffect(() => {
-    if (!user) {
+    if (user && user._id !== id) {
       dispatch(getUserDetails(id));
+    } else {
+      setName(user.name);
+      setEmail(user.email);
+      setRole(user.role);
     }
     if (error) {
       alert.error(error);

@@ -17,7 +17,7 @@ const Products = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const [currentPage, setCurrentPage] = useState(1);
-  const { products, loading, error, productsCount, resultPerPage, filteredProductsCount } = useSelector(state => state.products);
+  const { products, loading, error, productsCount, resultPerPage } = useSelector(state => state.products);
   const [price, setPrice] = useState([0, 25000]);
   const [category, setCategory] = useState('');
   const [ratings, setRatings] = useState(0);
@@ -30,10 +30,6 @@ const Products = () => {
   const priceHandler = (event, newPrice) => {
     setPrice(newPrice);
   };
-  let count = filteredProductsCount;
-  // console.log(resultPerPage);
-  // console.log(count);
-  // console.log(productsCount);
 
   useEffect(() => {
     if (error) {

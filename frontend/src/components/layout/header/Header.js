@@ -1,8 +1,8 @@
 import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { Button, Menu, MenuItem } from '@mui/material';
 import React from 'react';
-import { BsSearch } from 'react-icons/bs';
-import { MdOutlineShoppingCart } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -49,20 +49,36 @@ const Header = () => {
             'aria-labelledby': 'basic-button'
           }}
         >
-          <NavLink to='/' style={{ textDecoration: 'none', color: '#090b13' }}>
-            <MenuItem onClick={handleClose}>Home</MenuItem>
+          <NavLink to='/'>
+            <MenuItemWrapper>
+              <MenuItem onClick={handleClose}>
+                <span>Home</span>
+              </MenuItem>
+            </MenuItemWrapper>
           </NavLink>
           <br />
-          <NavLink to='/products' style={{ textDecoration: 'none', color: '#090b13' }}>
-            <MenuItem onClick={handleClose}>Products</MenuItem>
+          <NavLink to='/products'>
+            <MenuItemWrapper>
+              <MenuItem onClick={handleClose}>
+                <span>Products</span>
+              </MenuItem>
+            </MenuItemWrapper>
           </NavLink>
           <br />
-          <NavLink to='/contact' style={{ textDecoration: 'none', color: '#090b13' }}>
-            <MenuItem onClick={handleClose}>Contact</MenuItem>
+          <NavLink to='/contact'>
+            <MenuItemWrapper>
+              <MenuItem onClick={handleClose}>
+                <span>Contact</span>
+              </MenuItem>
+            </MenuItemWrapper>
           </NavLink>
           <br />
-          <NavLink to='/about' style={{ textDecoration: 'none', color: '#090b13' }}>
-            <MenuItem onClick={handleClose}>About</MenuItem>
+          <NavLink to='/about'>
+            <MenuItemWrapper>
+              <MenuItem onClick={handleClose}>
+                <span>About</span>
+              </MenuItem>
+            </MenuItemWrapper>
           </NavLink>
         </Menu>
       </HamburgerMenu>
@@ -83,10 +99,10 @@ const Header = () => {
         </NavMenu>
         <Icons>
           <NavLink to='/search' style={{ textDecoration: 'none' }}>
-            <BsSearch color='#f9f9f9' size={25} style={{ marginRight: '2rem' }} />
+            <SearchIcon color='info' fontSize='medium' style={{ marginRight: '2rem' }} />
           </NavLink>
           <NavLink to='/cart' style={{ textDecoration: 'none' }}>
-            <MdOutlineShoppingCart color='#f9f9f9' size={25} />
+            <ShoppingCartOutlinedIcon color='info' fontSize='medium' />
           </NavLink>
         </Icons>
         {!isAuthenticated ? (
@@ -116,6 +132,46 @@ const Nav = styled.nav`
   z-index: 3;
 `;
 
+const MenuItemWrapper = styled.div`
+  margin: -0.5rem 0;
+  padding: 0.2rem 2rem;
+  background-color: #090b13;
+  span {
+    text-decoration: none;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.42px;
+    line-height: 1.08;
+    padding: 2px 0px;
+    white-space: nowrap;
+    position: relative;
+    &:before {
+      background-color: #fff;
+      border-radius: 0px 0px 4px 4px;
+      bottom: -6px;
+      content: '';
+      height: 2px;
+      left: 0px;
+      opacity: 0;
+      position: absolute;
+      right: 0px;
+      transform-origin: left center;
+      transform: scaleX(0);
+      transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+      visibility: hidden;
+      width: auto;
+    }
+  }
+  &:hover {
+    span:before {
+      transform: scaleX(1);
+      visibility: visible;
+      opacity: 1 !important;
+    }
+  }
+`;
+
 const Logo = styled.a`
   padding: 0;
   width: 80px;
@@ -131,7 +187,7 @@ const Logo = styled.a`
 `;
 
 const HamburgerMenu = styled.div`
-  z-index: 4;
+  z-index: 1;
   color: #f9f9f9;
   @media (min-width: 768px) {
     display: none;
@@ -210,50 +266,6 @@ const Login = styled.a`
     color: #000;
     border-color: transparent;
     transform: scale(1.1);
-  }
-`;
-
-const UserImg = styled.img`
-  height: 100%;
-`;
-
-const Dropdown = styled.div`
-  position: absolute;
-  top: 48px;
-  right: 0px;
-  background: rgb(19, 19, 19);
-  border: 1px solid rgba(151, 151, 151, 0.34);
-  border-radius: 4px;
-  box-shadow: rgb(0 0 0 / 50%) 0px 0px 18px 0px;
-  padding: 10px;
-  font-size: 14px;
-  letter-spacing: 3px;
-  width: 100px;
-  opacity: 0;
-  color: #f9f9f9;
-`;
-
-const SignOut = styled.div`
-  position: relative;
-  height: 48px;
-  width: 48px;
-  display: flex;
-  cursor: pointer;
-  align-items: center;
-  justify-content: space-between;
-
-  //! buradaki style'lar sadece signout olacağı zaman geçerli
-  ${UserImg} {
-    border-radius: 50%;
-    width: 100%;
-    height: 100%;
-  }
-  //! hover olduğunda dropdown'a aşağıdaki style'lar ekleniyor.
-  &:hover {
-    ${Dropdown} {
-      opacity: 1;
-      transition-duration: 1s;
-    }
   }
 `;
 

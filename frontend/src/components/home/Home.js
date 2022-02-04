@@ -1,6 +1,6 @@
+import MouseIcon from '@mui/icons-material/Mouse';
 import React, { Fragment, useEffect } from 'react';
 import { useAlert } from 'react-alert';
-import { CgMouse } from 'react-icons/cg';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearErrors, getProduct } from '../../redux/actions/productAction';
 import Loader from '../layout/loader/Loader';
@@ -11,7 +11,7 @@ import ProductCard from './ProductCard';
 const Home = () => {
   const alert = useAlert();
   const dispatch = useDispatch();
-  const { loading, error, products, productsCount } = useSelector(state => state.products);
+  const { loading, error, products } = useSelector(state => state.products);
   // console.log(products);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const Home = () => {
 
             <a href='#container'>
               <button>
-                Scroll <CgMouse />
+                <MouseIcon />
               </button>
             </a>
           </div>

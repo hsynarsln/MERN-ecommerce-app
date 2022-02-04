@@ -23,20 +23,27 @@ const UpdateProduct = () => {
 
   const { loading, error: updateError, isUpdated } = useSelector(state => state.product);
 
-  const [name, setName] = useState(product?.name);
-  const [price, setPrice] = useState(product?.price);
-  const [description, setDescription] = useState(product?.description);
-  const [category, setCategory] = useState(product?.category);
-  const [stock, setStock] = useState(product?.stock);
+  const [name, setName] = useState('');
+  const [price, setPrice] = useState(0);
+  const [description, setDescription] = useState('');
+  const [category, setCategory] = useState('');
+  const [stock, setStock] = useState(0);
   const [images, setImages] = useState([]);
-  const [oldImages, setOldImages] = useState(product?.images);
+  const [oldImages, setOldImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
   const categories = ['Laptop', 'Footwear', 'Bottom', 'Tops', 'Attire', 'Camera', 'SmartPhones'];
 
   useEffect(() => {
-    if (!product) {
+    if (product && product._id !== id) {
       dispatch(getProductDetails(id));
+    } else {
+      setName(product.name);
+      setDescription(product.description);
+      setPrice(product.price);
+      setCategory(product.category);
+      setStock(product.stock);
+      setOldImages(product.images);
     }
     if (error) {
       alert.error(error);

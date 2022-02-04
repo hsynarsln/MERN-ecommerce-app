@@ -37,7 +37,7 @@ import { loadUser } from './redux/actions/userAction';
 import store from './redux/store/store';
 
 function App() {
-  const { loading, isAuthenticated, user } = useSelector(state => state.user);
+  const { isAuthenticated, user } = useSelector(state => state.user);
   const [stripeApiKey, setStripeApiKey] = useState('');
 
   async function getStripeApiKey() {
