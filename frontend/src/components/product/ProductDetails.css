@@ -14,7 +14,6 @@
   flex-direction: column;
   justify-content: space-evenly;
   padding: 2vmax;
-  border: 1px solid white;
 }
 
 .ProductDetails > div:last-child {
@@ -22,8 +21,10 @@
 }
 
 .CarouselImage {
+  display: flex;
+  margin: auto;
   width: 20vmax;
-  margin: 0 22%;
+  height: 13vmax;
 }
 
 .detailsBlock-1 > h2 {

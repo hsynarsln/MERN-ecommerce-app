@@ -91,8 +91,29 @@ const ProductDetails = () => {
         <>
           <MetaData title={`${product.name} -- ECOMMERCE`} />
           <div className='ProductDetails'>
-            <div>
-              <Carousel>{product.images && product.images.map((item, i) => <img className='CarouselImage' key={i} src={item.url} alt={`${i} Slide`} />)}</Carousel>
+            <div className='CarouselContainer'>
+              <Carousel
+                fullHeightHover={true} // We want the nav buttons wrapper to only be as big as the button element is
+                navButtonsProps={{
+                  // Change the colors and radius of the actual buttons. THIS STYLES BOTH BUTTONS
+                  style: {
+                    backgroundColor: '#090b13',
+                    color: '#fff',
+                    width: '20px',
+                    padding: '0px 20px',
+                    borderRadius: '50%'
+                  }
+                }}
+                navButtonsWrapperProps={{
+                  // Move the buttons to the bottom. Unsetting top here to override default style.
+                  style: {
+                    bottom: '0',
+                    top: 'unset'
+                  }
+                }}
+              >
+                {product.images && product.images.map((item, i) => <img className='CarouselImage' key={i} src={item.url} alt={`${i} Slide`} />)}
+              </Carousel>
             </div>
 
             <div>
