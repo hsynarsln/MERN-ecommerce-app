@@ -20,8 +20,11 @@ import OrderSuccess from './components/cart/OrderSuccess';
 import Payment from './components/cart/Payment';
 import Shipping from './components/cart/Shipping';
 import Home from './components/home/Home';
+import About from './components/layout/about/About';
+import Contact from './components/layout/contact/Contact';
 import Footer from './components/layout/footer/Footer';
 import Header from './components/layout/header/Header';
+import NotFound from './components/layout/notFound/NotFound';
 import MyOrders from './components/order/MyOrders';
 import OrderDetails from './components/order/OrderDetails';
 import ProductDetails from './components/product/ProductDetails';
@@ -64,6 +67,8 @@ function App() {
     // return isAdmin === true && user.role !== 'admin' ? children : <Navigate to={redirectTo} />;
   }
 
+  window.addEventListener('contextmenu', e => e.preventDefault());
+
   return (
     <Router>
       <Header />
@@ -74,6 +79,8 @@ function App() {
         <Route path='/products/:keyword' element={<Products />} />
         <Route path='/search' element={<Search />} />
         <Route path='/login' element={<Auth />} />
+        <Route path='/contact' element={<Contact />} />
+        <Route path='/about' element={<About />} />
         <Route
           path='/account'
           element={
@@ -225,6 +232,7 @@ function App() {
             </RequireAuth>
           }
         />
+        <Route path='*' element={<NotFound />} />
       </Routes>
       <Footer />
     </Router>
